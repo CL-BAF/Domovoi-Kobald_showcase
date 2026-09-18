@@ -10,9 +10,11 @@ Kobald and Domovoi are two connected artificial intelligence projects led by Cam
 
 Together, the projects aim to answer a simple question:
 
-> **Can useful AI become much more efficient without sacrificing too much capability?**
+> **How much useful AI capability can be achieved for each byte of memory, unit of computation and watt of power?**
 
 The long-term research target is to investigate whether AI capability normally associated with much larger models could eventually run within only a few gigabytes of memory.
+
+Sub-1-bit storage remains one experimental direction, but Domovoi is no longer framed as only a "0.5-bit Transformer" project. The broader direction is to reconsider the architecture, memory system, routing, numerical representation and training process together.
 
 This is an active research project. Long-term targets described here are goals being investigated, not claims of results already achieved.
 
@@ -26,6 +28,7 @@ This is an active research project. Long-term targets described here are goals b
 - [What is Domovoi?](#what-is-domovoi)
 - [How the Projects Work Together](#how-the-projects-work-together)
 - [What Domovoi is Researching](#what-domovoi-is-researching)
+- [Clean-Sheet Architecture Direction](#clean-sheet-architecture-direction)
 - [Sub-1-Bit Research](#sub-1-bit-research)
 - [How the Research is Conducted](#how-the-research-is-conducted)
 - [How Results are Measured](#how-results-are-measured)
@@ -51,6 +54,8 @@ Kobald and Domovoi approach that problem from two directions.
 
 **Domovoi** investigates whether the models themselves can be redesigned to become much more efficient.
 
+The research is not limited to compressing a conventional Transformer. Domovoi will test whether major parts of the current LLM stack can be redesigned together, including model structure, working memory, routing, precision, sparsity, knowledge storage and training objectives.
+
 The projects are designed to support each other:
 
 ~~~text
@@ -65,7 +70,7 @@ Promising ideas are improved and tested again
 
 The long-term objective is not simply to build another chatbot.
 
-The objective is to investigate whether capable AI can become more practical to run locally.
+The objective is to investigate whether capable AI can become more practical to run locally, with efficiency measured across memory, computation, bandwidth and energy rather than model size alone.
 
 ---
 
@@ -149,15 +154,17 @@ Its purpose is to investigate whether AI models can be designed from the beginni
 
 The goal is not simply to take an existing large model and compress it as much as possible.
 
-Instead, Domovoi asks whether the model itself can be designed differently.
+Instead, Domovoi asks whether the model itself can be designed differently from the beginning.
 
 The central research question is:
 
-> **Can an AI model designed specifically for efficiency approach the useful capability of much larger models while requiring dramatically less memory?**
+> **Can a language model designed specifically for efficiency approach the useful capability of much larger models while requiring dramatically less memory and computation?**
 
 One long-term research target is to investigate whether capability similar to current 27-billion-parameter-class models could eventually be approached within roughly **4 GB of inference memory**.
 
-That would be a substantial reduction compared with conventional approaches.
+That target does not require a specific parameter count or a fixed 0.5-bit format. A design with a higher average bit width may be better if it requires much less computation, while an extremely low-bit model may be a poor result if it needs an enormous network to compensate.
+
+Domovoi therefore treats **capability per byte, capability per operation and capability per watt** as more important than bit width alone.
 
 This target has not been achieved.
 
@@ -202,57 +209,205 @@ A model also needs to be useful.
 
 There is unlikely to be one single technique that solves the efficiency problem.
 
-Domovoi therefore investigates several approaches.
+Domovoi therefore investigates several parts of the model together rather than assuming that the existing Transformer stack must remain unchanged.
 
-## Lower-precision model storage
+## Reusable learned computation
 
-Most AI models store their learned information using numerical values.
+Conventional models store huge numbers of separate learned values.
 
-Reducing the amount of information needed to store each value can significantly reduce memory requirements.
+One research direction is whether the model can learn a smaller vocabulary of reusable computational structures or **microcircuits** and reuse them throughout a much larger effective network.
 
-Domovoi is interested in models designed around low-precision storage from the beginning rather than only reducing precision after training.
+~~~text
+Conventional network
 
-## Reusing learned information
+unique weight
+unique weight
+unique weight
+unique weight
 
-Conventional models may store large numbers of separate learned values.
 
-One research direction is whether parts of the model can reuse the same learned information more effectively.
+Possible Domovoi direction
 
-If successful, this could reduce how much information needs to be stored.
+learned pattern A ─┐
+learned pattern B ─┼─ reused in many places
+learned pattern C ─┘
+~~~
 
-## Repeated computation
+The question is whether complex behaviour can emerge from combinations of a much smaller set of learned structures.
 
-Instead of storing a very large model, a smaller model may be able to perform several rounds of computation.
+## Conditional routing
 
-The research question is whether repeated use of a smaller structure can sometimes replace part of the capability gained from simply making a model larger.
+A conventional model often runs most of its network for every token.
 
-## Selective computation
+Domovoi is interested in architectures where a learned router selects only the computation needed for the current input.
 
-Large AI models do not necessarily need every part of the system for every task.
+~~~text
+Input
+  ↓
+Router
+  ├── language structure
+  ├── reasoning
+  ├── mathematics
+  ├── retrieval
+  └── other learned modules
+~~~
 
-Another research direction is allowing the model to activate only the parts that are useful for the current input.
+The objective is to make total model capacity much larger than the amount of computation activated for any single step.
 
-## More efficient mathematical structures
+## Compact working state
 
-Large AI models contain very large mathematical structures.
+Transformer inference normally retains growing token-related state as context length increases.
 
-Some of those structures may be representable using smaller components.
+Domovoi will investigate whether a model can maintain a smaller recurrent or compressed **working state** containing the information currently needed for reasoning, while retrieving older information when required.
 
-Domovoi will investigate whether these approaches can reduce storage while maintaining useful performance.
+The research question is not simply how to make context smaller, but how to teach the model what should be retained, compressed, retrieved or forgotten.
 
-## Learning from larger models
+## Adaptive precision
 
-A larger and more capable AI model can sometimes help train a smaller model.
+Instead of forcing every connection to use the same number of bits, Domovoi will investigate whether precision itself can become a learned resource.
 
-This process is commonly called **distillation**.
+~~~text
+Unnecessary connection  → remove it
+Simple relationship     → shared low-bit pattern
+Common relationship     → ternary / very-low-bit
+Important relationship  → several bits
+Critical computation    → higher precision
+~~~
 
-Domovoi may use established models as teachers or reference systems while still training experimental models from scratch.
+The objective is to spend precision only where it produces useful capability.
+
+## Sparsity
+
+If a connection or module is not useful, the model should ideally avoid storing or evaluating it.
+
+Sparse structures may reduce memory traffic, active computation, energy use and latency.
+
+## Separating knowledge from computation
+
+Large language models store both general reasoning behaviour and large amounts of factual information inside their parameters.
+
+Domovoi will investigate whether those roles can be separated more aggressively.
+
+~~~text
+                 Model
+                /     \
+               /       \
+        computation    knowledge
+        and reasoning   memory
+~~~
+
+The model could focus more internal capacity on language, reasoning, planning and information use, while factual or long-term knowledge is retrieved from an external or structured memory system when required.
+
+## Dynamic computation
+
+Not every input requires the same amount of processing.
+
+Domovoi will investigate models that can perform additional computation only when needed.
+
+~~~text
+Input
+  ↓
+Compute
+  ↓
+Enough information?
+  ├── yes → output
+  └── no  → compute another cycle
+                ↑
+                └─────────
+~~~
+
+This allows easy tasks to remain cheap while difficult tasks receive additional computation.
+
+## Efficient internal representations
+
+Tokens are useful for language input and output, but they may not be the most efficient representation for every internal operation.
+
+A longer-term direction is investigating whether text can be transformed into richer or more compact internal representations before expensive reasoning occurs, then decoded back into language afterward.
+
+## Efficiency-aware training
+
+If efficiency is a core design goal, training should reward it directly.
+
+A future experimental objective may combine normal prediction quality with penalties for unnecessary memory, computation, active modules or precision.
+
+Conceptually:
+
+~~~text
+training objective
+=
+task / language error
++ memory cost
++ compute cost
++ routing cost
++ precision cost
+~~~
+
+The goal would be to teach the model not only **what** to learn, but also **how efficiently** to represent and use what it learns.
+
+---
+
+# Clean-Sheet Architecture Direction
+
+Domovoi's long-term direction is a clean-sheet language architecture rather than assuming that every successful idea must fit inside a conventional Transformer.
+
+A conceptual system could look like:
+
+~~~text
+                    INPUT
+                      │
+                      ▼
+             Semantic / Input Encoder
+                      │
+                      ▼
+               Compact Working State
+                      │
+                      ▼
+                    Router
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+   Pattern Bank   Pattern Bank   Memory Retrieval
+        │             │             │
+        └─────────────┼─────────────┘
+                      │
+                      ▼
+                  State Update
+                      │
+                Enough compute?
+                 /          \
+               no            yes
+               │              │
+               └──── repeat   ▼
+                         Output Decoder
+                              │
+                              ▼
+                            OUTPUT
+~~~
+
+Possible properties include:
+
+- reusable learned computational patterns instead of only independent dense weights;
+- conditional routing so only relevant computation is activated;
+- sparse structures;
+- compact recurrent or compressed working state;
+- adaptive numerical precision;
+- external or structured long-term knowledge;
+- dynamic reasoning depth;
+- training objectives that explicitly reward efficiency.
+
+This architecture is a research direction, not an implemented or proven model design.
+
+The project will not replace every component at once. Existing Domovoi work will be preserved as a **baseline and reference implementation**, and new components will be introduced experimentally so their effect can be measured.
+
+A radical destination still requires controlled experiments.
 
 ---
 
 # Sub-1-Bit Research
 
 One experimental area within Domovoi involves extremely low model-storage requirements.
+
+Sub-1-bit storage is treated as **one possible tool inside the broader architecture**, not the definition of Domovoi itself.
 
 A conventional binary value requires one bit of storage.
 
@@ -277,6 +432,8 @@ multiple effective model weights
 
 One experimental target being considered is approximately **0.5 stored bits per effective weight on average**.
 
+However, the project will not optimise for this number at the expense of overall efficiency. If a model using more than 0.5 bits achieves the same capability with substantially less compute, latency or energy, it may be the better architecture.
+
 This does not mean physically storing half of a bit.
 
 It means attempting to design the model so that the same stored information contributes to multiple parts of the model.
@@ -291,9 +448,11 @@ That is why it is being treated as an experiment rather than an assumption.
 
 Domovoi will use a staged research process.
 
-The project will not begin by attempting to train an extremely large AI model.
+The current Domovoi implementation will be retained as a baseline rather than discarded. Experimental architecture work can then branch away from that baseline while preserving a known reference for comparison.
 
-New ideas are first tested using relatively small models.
+The project will not begin by attempting to train an extremely large AI model or by replacing every part of the architecture simultaneously.
+
+New ideas are first tested using relatively small models, with major components changed independently where practical.
 
 For example:
 
@@ -341,6 +500,9 @@ Important measurements include:
 | Reasoning performance | How well the model handles complex problems |
 | Tool use | Whether the model can reliably interact with other software |
 | Failure cases | Where and why the model performs poorly |
+| Capability per byte | Whether additional memory is producing useful capability |
+| Capability per operation | Whether compute is being used efficiently |
+| Capability per watt | Whether efficiency improvements also reduce energy requirements |
 
 The aim is not simply:
 
@@ -348,7 +510,7 @@ The aim is not simply:
 
 The actual goal is:
 
-> **Achieve the greatest useful capability possible for the available memory and computing power.**
+> **Achieve the greatest useful capability possible for the available memory, computation and energy.**
 
 ---
 
@@ -449,23 +611,31 @@ If an experimental architecture demonstrates strong results, larger training run
 
 Establish reliable training, benchmarking and comparison systems.
 
-## Stage 2 — Small efficiency experiments
+## Stage 2 — Preserve and measure the baseline
 
-Test low-precision and alternative model designs using small models where experiments are relatively inexpensive.
+Keep the current Domovoi implementation as a reference and establish repeatable capability, memory, speed and compute measurements.
 
-## Stage 3 — Structural efficiency
+## Stage 3 — Replace individual primitives
 
-Investigate whether models can reuse information, repeat computation or activate only selected parts of the network.
+Test reusable learned patterns, sparse structures, alternative state mechanisms, routing and adaptive precision separately where possible.
 
-## Stage 4 — Extreme memory efficiency
+## Stage 4 — Combine successful components
 
-Investigate very low storage requirements, including whether below-one-bit average storage is practical.
+Integrate components that demonstrate measurable improvements into increasingly non-Transformer experimental architectures.
 
-## Stage 5 — Scaling successful ideas
+## Stage 5 — Efficiency-aware training
+
+Investigate training objectives that reward capability while penalising unnecessary memory, computation and precision.
+
+## Stage 6 — Extreme memory efficiency
+
+Investigate very low storage requirements, including whether below-one-bit average storage is useful when considered alongside compute and latency.
+
+## Stage 7 — Scaling successful ideas
 
 Increase model size only when earlier experiments show evidence that an approach is worth scaling.
 
-## Stage 6 — Practical testing through Kobald
+## Stage 8 — Practical testing through Kobald
 
 Integrate successful models into Kobald and compare them with established AI systems on practical work.
 
