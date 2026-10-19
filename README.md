@@ -1,22 +1,18 @@
 # Kobald + Domovoi
 
-> Local AI development and efficient-model research from Mount Gambier, South Australia.
+> **Two complementary research efforts:** a scientific AI harness and an efficient-language-model research laboratory.
 
-Kobald and Domovoi are two connected artificial intelligence projects led by Cameron Lonnie.
+Kobald and Domovoi are independent projects led by Cameron Lonnie in Mount Gambier, South Australia.
 
-**Kobald** is the practical software platform. It is used to run AI models locally, give them access to useful tools, and test how well they perform on real tasks.
+**Kobald** is being developed as a **scientific AI orchestration harness**. Its intended focus is AI-assisted physics simulations, numerical scientific computing, chemical data analysis, and eventually properly authorised scientific instrument connectors—not an everyday personal assistant. Evidence handling, model access, human review and desktop interface prototypes exist, but the science-specific adapters are **not yet implemented**.
 
-**Domovoi** is the research project. It investigates whether capable AI models can be designed to use significantly less computer memory and processing power.
+**Domovoi** is a long-term research effort investigating language-model capability per byte of memory, unit of computation and watt of power. **Domovoi-Labs already has a research pipeline and a conventional Transformer baseline**, with documented training, testing, profiling and experiment tracking. The proposed new Domovoi architecture remains unimplemented and unvalidated.
 
-Together, the projects aim to answer a simple question:
+The two projects are complementary, but neither depends on the other's success. Kobald can work with existing models; future experimental Domovoi models could be evaluated in Kobald on scientific tasks.
 
-> **How much useful AI capability can be achieved for each byte of memory, unit of computation and watt of power?**
+> **Build it. Measure it. Challenge it. Improve it.**
 
-The long-term research target is to investigate whether AI capability normally associated with much larger models could eventually run within only a few gigabytes of memory.
-
-Sub-1-bit storage remains one experimental direction, but Domovoi is no longer framed as only a "0.5-bit Transformer" project. The broader direction is to reconsider the architecture, memory system, routing, numerical representation and training process together.
-
-This is an active research project. Long-term targets described here are goals being investigated, not claims of results already achieved.
+The research is early-stage. Proposed capabilities and efficiency targets are aims and hypotheses, not claims that novel AI architecture or lab automation has already been achieved.
 
 ---
 
@@ -44,33 +40,29 @@ This is an active research project. Long-term targets described here are goals b
 
 # Executive Summary
 
-Modern artificial intelligence can be extremely capable, but the most capable systems often require expensive hardware, large amounts of memory, and significant computing power.
+AI can be helpful in scientific research, but a plausible answer is not a verified result. Simulations, chemical analyses and laboratory measurements need specified inputs, units, tools, versioned methods, recorded outputs and independent checks.
 
-This creates a barrier for individuals, researchers, small organisations and businesses that want to run AI locally rather than depending entirely on large cloud providers.
+**Kobald** aims to supply the research harness around interchangeable AI models: constrained scientific tools, simulation runners, datasets, evidence records and human review. The technical foundation exists in earlier general-purpose prototypes; the new science-first integrations are planned.
 
-Kobald and Domovoi approach that problem from two directions.
+**Domovoi** investigates a different foundational problem: whether novel model designs, training methods and memory systems could deliver substantially more useful capability for the same resources. Its private `Domovoi-Labs` repository has a functioning Phase 0 training/evaluation laboratory and a conventional baseline implementation. It has **not** demonstrated a new Domovoi architecture or achieved its long-term efficiency target.
 
-**Kobald** provides the practical environment where AI models can be used and tested.
-
-**Domovoi** investigates whether the models themselves can be redesigned to become much more efficient.
-
-The research is not limited to compressing a conventional Transformer. Domovoi will test whether major parts of the current LLM stack can be redesigned together, including model structure, working memory, routing, precision, sparsity, knowledge storage and training objectives.
-
-The projects are designed to support each other:
+A potential future combination would be:
 
 ~~~text
-Domovoi develops and tests more efficient AI models
-                         ↓
-Kobald tests whether those models are useful in practice
-                         ↓
-Results are measured and compared
-                         ↓
-Promising ideas are improved and tested again
+Researcher defines a question
+           ↓
+Kobald executes an authorised simulation or data analysis
+           ↓
+Results, assumptions and uncertainty are recorded
+           ↓
+Researcher independently examines the evidence
+           ↓
+Experimental Domovoi models, if developed, can be evaluated
+           ↓
+Findings guide future research on both systems
 ~~~
 
-The long-term objective is not simply to build another chatbot.
-
-The objective is to investigate whether capable AI can become more practical to run locally, with efficiency measured across memory, computation, bandwidth and energy rather than model size alone.
+Both initiatives are research-first rather than promises of a near-term commercial product.
 
 ---
 
@@ -99,50 +91,41 @@ Domovoi investigates whether some of those requirements can be reduced through b
 
 # What is Kobald?
 
-Kobald is a local AI platform.
+Kobald is a proposed **scientific AI harness**, not a new language model or a general daily-life chatbot. The AI model is interchangeable; Kobald is intended to provide the structured, controlled scientific workflows around it.
 
-In simple terms, it is the software environment around an AI model.
+## Scientific directions
 
-A model by itself mainly receives text and produces text.
+| Domain | Intended workflow | Current maturity |
+|---|---|---|
+| Physics and engineering | Configure numerical/physics-engine simulations, capture inputs and compare outputs | Proposed |
+| Computational chemistry | Analyse chemical datasets and simulation output with reproducible methods | Proposed |
+| Mathematics and statistics | Run verifiable calculations, numerical methods and uncertainty analysis | Proposed |
+| Biology and environmental science | Process observational data and support evidence-grounded analysis | Proposed |
+| Laboratory data and instrumentation | Ingest instrument data using typed, permissioned connectors | Proposed; synthetic/read-only first |
+| Evidence and research workflows | Track source provenance, contradictions, reviews and audit records | Early general-purpose prototypes exist; science-specific migration pending |
 
-Kobald is intended to provide the surrounding systems that allow a model to perform more useful work.
+Kobald would ideally allow a researcher to move from hypothesis to approved tool execution to traceable results—without taking the model's conclusions on faith.
 
-This can include:
+## Example future workflow
 
-- research;
-- coding;
-- data analysis;
-- cybersecurity tasks;
-- document and knowledge access;
-- model testing;
-- controlled tool use;
-- longer-running AI workflows.
+~~~text
+Researcher poses hypothesis
+    → define dataset and experimental conditions
+    → verify tool versions, parameters, units and permissions
+    → run isolated simulation or read-only scientific analysis
+    → store raw outputs, errors, seeds and provenance
+    → compare against references or measurements
+    → show findings, uncertainties and contradictions
+    → researcher approves interpretation or plans next study
+~~~
 
-Kobald is designed to work with different AI models rather than being locked to a single provider.
+**This is the desired design, not a currently working end-to-end scientific system.**
 
-That means established models can be used today while experimental Domovoi models can later be tested in the same environment.
+External laboratory control would require qualified human supervision, device-specific interlocks and separate safety reviews. A generated plan must never count as permission for a physical experiment.
 
-## Why Kobald matters
+Earlier Kobald work includes model interactions, developing knowledge/evidence foundations, human review, policy/audit concepts and an early Command Centre interface. The [canonical KobaldAi repository](https://github.com/CL-BAF/KobaldAi) is rebuilding that foundation for the science-first direction.
 
-AI models are often compared using benchmarks.
-
-Benchmarks are useful, but a high benchmark score does not automatically mean a model performs well in real use.
-
-Kobald provides a way to test questions such as:
-
-> Can the model complete a coding task?
-
-> Can it use tools correctly?
-
-> Can it work with documents?
-
-> Can it follow a longer research process?
-
-> Can it operate locally and reliably?
-
-> What changes when a smaller model replaces a much larger one?
-
-This makes Kobald useful as a practical testing environment for Domovoi.
+[View the dedicated Kobald scientific-harness showcase](https://github.com/CL-BAF/Kobald_Showcase).
 
 ---
 
@@ -174,34 +157,16 @@ It is the research problem Domovoi is intended to investigate.
 
 # How the Projects Work Together
 
-The two projects have different roles.
+These projects address different problems in research.
 
-| Project | Role |
-|---|---|
-| **Domovoi** | Researches more efficient AI model designs |
-| **Kobald** | Tests whether those models are practically useful |
+| Project | Primary question | Relationship |
+|---|---|---|
+| **Kobald** | How can AI-assisted scientific computing be reproducible, inspectable and subject to researcher control? | Can use established local or cloud models independently |
+| **Domovoi** | Can new language-model designs achieve much greater capability per memory, compute and energy? | Can be independently developed and benchmarked before any Kobald integration |
 
-The process is:
+In a possible later stage, Kobald would provide controlled scientific workflows against which *newly developed* Domovoi models could be evaluated. That would supplement, not replace, Domovoi's independent reasoning, language, coding, long-context and resource-use evaluations.
 
-~~~text
-Design an experimental model
-            ↓
-Train the model
-            ↓
-Measure its capability
-            ↓
-Measure memory and computing requirements
-            ↓
-Compare it with established models
-            ↓
-Test promising models inside Kobald
-            ↓
-Improve, replace or reject the idea
-~~~
-
-This prevents the research from focusing only on theoretical efficiency.
-
-A model also needs to be useful.
+There is no current integration between a novel Domovoi model and Kobald, because the novel architecture does not yet exist.
 
 ---
 
@@ -446,35 +411,42 @@ That is why it is being treated as an experiment rather than an assumption.
 
 # How the Research is Conducted
 
-Domovoi will use a staged research process.
+## Domovoi Labs — Phase 0 already underway
 
-The current Domovoi implementation will be retained as a baseline rather than discarded. Experimental architecture work can then branch away from that baseline while preserving a known reference for comparison.
+Domovoi's work did begin: its research laboratory is implemented to a meaningful extent. The **existing model is deliberately a conventional Transformer baseline**, not the proposed novel Domovoi architecture.
 
-The project will not begin by attempting to train an extremely large AI model or by replacing every part of the architecture simultaneously.
+The private `Domovoi-Labs` repository documents:
 
-New ideas are first tested using relatively small models, with major components changed independently where practical.
+- a roughly **41-million-parameter**, pre-layer-normalisation decoder-only Transformer for baseline experiments;
+- deterministic data preparation and tokenisation, training, checkpoint/resume and independent generation;
+- benchmark evaluation scaffolding, CUDA memory profiling and experiment tracking;
+- **75 reported passing tests**, including an offline CPU end-to-end test; these are repository-reported, not an external audit;
+- one real GPU run, **DML-0001**, on an RTX 2050, stopped at approximately step **520/3,000** at the operator's request;
+- **no completed official benchmark comparison** and **no validated novel-model efficiency result** yet.
 
-For example:
+The project will not resume local GPU training, download benchmark datasets or change the interrupted run's experiment status without the project lead's explicit approval.
+
+## Next research stages
 
 ~~~text
-Small baseline model
-        ↓
-Experimental model
-        ↓
-Compare results
-        ↓
-If promising, test at a larger scale
-        ↓
-Repeat
+Confirm reproducible baseline measurements
+             ↓
+Define a falsifiable architectural hypothesis
+             ↓
+Implement a single controlled experimental change
+             ↓
+Measure capability, memory, latency, compute and energy
+             ↓
+Compare with an established baseline and record failures
+             ↓
+Revise, reject or scale based on evidence
 ~~~
 
-Potential model sizes may progress from tens of millions of parameters into hundreds of millions and eventually larger systems.
+## Kobald's planned scientific validation
 
-A technique only receives significantly more computing resources if smaller experiments provide evidence that it is worth scaling.
+Kobald's first proposed scientific milestone is a small reproducible **offline simulation** against an independently verifiable reference result. Next would come computational science/data analysis, and only later synthetic or read-only measurement connectors. Physical laboratory actuation is not a baseline development milestone.
 
-This approach reduces wasted computing time and makes failed experiments useful.
-
-If an idea performs poorly, it can be rejected before large amounts of money or computing power are spent on it.
+The research may take years. No particular outcome or timetable is guaranteed.
 
 ---
 
@@ -514,134 +486,62 @@ The actual goal is:
 
 ---
 
-# Current Status
-
-Both projects are actively being developed.
+# Current Status — October 2026
 
 ## Kobald
 
-Kobald already exists as an early research and development platform.
+**Existing general AI/evidence prototypes; scientific-harness integrations planned.**
 
-Current and ongoing work includes:
-
-- AI model integration;
-- local model support;
-- knowledge and memory systems;
-- testing and evaluation;
-- desktop interface development;
-- AI tool integration;
-- research workflows;
-- controlled cybersecurity tooling.
-
-Kobald is not currently presented as a finished commercial product.
-
-It is an evolving platform used for development, experimentation and evaluation.
+Legacy work includes evidence handling, model interfaces, bounded tool and policy concepts, a research workflow foundation and desktop interface development. The newer canonical `KobaldAi` codebase is at a foundation/migration stage. It has **not** yet integrated physics engines, computational chemistry software or scientific instruments.
 
 ## Domovoi
 
-Domovoi is currently in the research and experimentation stage.
+**Phase 0 laboratory partly implemented and tested; novel architecture research not yet begun.**
 
-The first priority is establishing reliable baseline models and repeatable testing.
+`Domovoi-Labs` contains the conventional Transformer, training/evaluation pipeline, profiling tools, experiment management and documented tests. The initial real training run was interrupted at the project lead's request, before completion and official benchmark evaluation.
 
-Experimental architectures can then be compared against those baselines.
+No novel Domovoi architecture has been built or shown to satisfy the target 4 GiB inference and capability constraints. Existing code and small-model training are genuine engineering progress, not evidence of a foundational AI efficiency breakthrough.
 
-This allows results to be measured objectively rather than relying on impressions.
+## Research integrity
+
+The public descriptions separate **implemented tooling**, **executed experiments**, **reported test coverage**, **proposed hypotheses** and **long-term targets**. Actual benchmark results should be published with matched baselines, measurement conditions and reproducible artifacts, not inferred from test counts or training loss.
 
 ---
 
-# Why Local Research Hardware is Needed
+# Why Computing and Research Infrastructure Matter
 
-Training AI models requires substantially more computing power than simply using services such as ChatGPT.
+Domovoi architecture research requires repeatable model training, comparisons, profiling, ablations and eventual scaling. The existing RTX 2050 has been useful for Phase 0, but it does not provide enough headroom for every future experiment.
 
-Research requires models to be trained repeatedly while different designs are tested.
+Kobald's science-first direction may also need CPU-heavy simulation, data storage, appropriate scientific software, domain expertise, specialist instruments and access to representative research datasets. **Computing hardware alone does not substitute for scientific validation or supervised laboratory access.**
 
-A single experiment may involve:
+Potential support includes university compute allocations, shared GPU clusters, sponsored workstations, cloud research credits, mentorship, research-software access, and supervised, read-only laboratory-data partnerships. No specific single GPU purchase is assumed to solve the research programme.
 
-~~~text
-prepare data
-      ↓
-train model
-      ↓
-test model
-      ↓
-measure results
-      ↓
-modify architecture
-      ↓
-train again
-~~~
-
-This process may be repeated many times.
-
-The project's current development hardware significantly limits the size and number of experiments that can be performed locally.
-
-A dedicated AI research workstation would allow the project to conduct these experiments without relying entirely on rented cloud computing.
-
-The current target is approximately:
-
-| Component | Target |
-|---|---|
-| GPU | NVIDIA RTX 5090-class |
-| GPU memory | 32 GB |
-| System memory | Approximately 96 GB or more |
-| Storage | High-speed NVMe storage |
-| CPU | High-performance multi-core processor |
-| Additional equipment | Backup storage and power protection |
-
-This system would support early and medium-scale research, including:
-
-- training experimental models;
-- model benchmarking;
-- fine-tuning;
-- model distillation;
-- local AI testing;
-- Kobald development;
-- dataset processing;
-- storing model checkpoints and research results.
-
-It would not replace the need for large-scale computing if the research eventually reaches much larger model sizes.
-
-If an experimental architecture demonstrates strong results, larger training runs could later use university, industry, sponsored or rented research computing.
+Larger training hardware would be compatible with Domovoi's objective: the **4 GiB target is for qualifying model inference**, not a cap on the compute permitted to conduct research.
 
 ---
 
 # Project Roadmap
 
-## Stage 1 — Research foundation
+These are **research and engineering stages**, not fixed 90-day deliverables.
 
-Establish reliable training, benchmarking and comparison systems.
+## Kobald
 
-## Stage 2 — Preserve and measure the baseline
+1. **Preserve and verify the foundation:** migrate evidence, policy, model-interface and audit concepts from the legacy prototype into the canonical scientific-harness architecture.
+2. **First computational experiment:** run a documented physics or mathematical simulation offline with versioned inputs and independently checked outputs.
+3. **Scientific data workflows:** integrate numerical and chemical analysis tools under reproducible execution manifests.
+4. **Measurement connectors:** develop synthetic and read-only instrument interfaces with explicit scope, data provenance and relevant safety reviews.
+5. **Research-grade orchestration:** connect multiple computational studies, report uncertainty and preserve researcher control.
 
-Keep the current Domovoi implementation as a reference and establish repeatable capability, memory, speed and compute measurements.
+## Domovoi
 
-## Stage 3 — Replace individual primitives
+1. **Phase 0:** complete and assess reproducible baseline training, profiling, evaluation and reporting. The training/evaluation pipeline exists; the first real baseline run is incomplete.
+2. **Architecture experiments:** introduce isolated changes to memory, routing, representations or computation and compare against baselines.
+3. **Combine promising components:** only where ablation results support it.
+4. **Efficiency-aware training:** investigate objectives that trade capability against memory, compute and energy cost.
+5. **Scale justified approaches:** seek larger infrastructure only after smaller results warrant it.
+6. **Evaluate candidate models:** benchmark directly, then potentially test in Kobald's scientific workflows if such models are developed.
 
-Test reusable learned patterns, sparse structures, alternative state mechanisms, routing and adaptive precision separately where possible.
-
-## Stage 4 — Combine successful components
-
-Integrate components that demonstrate measurable improvements into increasingly non-Transformer experimental architectures.
-
-## Stage 5 — Efficiency-aware training
-
-Investigate training objectives that reward capability while penalising unnecessary memory, computation and precision.
-
-## Stage 6 — Extreme memory efficiency
-
-Investigate very low storage requirements, including whether below-one-bit average storage is useful when considered alongside compute and latency.
-
-## Stage 7 — Scaling successful ideas
-
-Increase model size only when earlier experiments show evidence that an approach is worth scaling.
-
-## Stage 8 — Practical testing through Kobald
-
-Integrate successful models into Kobald and compare them with established AI systems on practical work.
-
-## Long-term objective
-
-Investigate whether the practical capability of modern 27B-class or larger AI models can eventually be approached using only a few gigabytes of inference memory.
+**Long-term Domovoi research target:** investigate whether capability approaching much larger 27B-class models can be delivered within approximately 4 GiB of inference GPU memory, with explicit speed and context constraints. This remains speculative and is not achieved.
 
 ---
 
@@ -677,50 +577,28 @@ This distinction is important because Domovoi is intentionally exploring difficu
 
 ---
 
-# Sponsorship and Collaboration
+# Research Support and Collaboration
 
-Kobald and Domovoi are seeking organisations interested in supporting independent Australian AI research and local technology development.
+Kobald and Domovoi are looking primarily for **scientific and technical collaboration**, not immediate commercialisation.
 
-Potential support may include:
+Potential support includes academic mentorship, access to scientific software, instrument/data integration expertise, GPU and CPU research computing, reproducible evaluation design, grants or sponsorship appropriate to early-stage independent research, and introductions to experienced researchers.
 
-- financial sponsorship;
-- AI research hardware;
-- computing access;
-- university collaboration;
-- industry partnerships;
-- technical mentorship;
-- equipment loans;
-- supplier support.
+A useful collaborator might help formulate falsifiable experiments, provide lawful access to suitable datasets, review numerical methods, help define safety boundaries or make compute available for justified studies.
 
-The immediate infrastructure priority is establishing a capable local AI research workstation.
-
-This would allow Domovoi experiments and Kobald development to be conducted repeatedly and locally without depending entirely on external computing services.
-
-Potential sponsors and collaborators can receive appropriate acknowledgement through public project documentation, research updates, presentations, demonstrations and published results.
-
-The project is open to discussions with businesses, universities, researchers, technology companies and community organisations.
+These projects do not claim institutional sponsorship, laboratory partnerships, validated scientific discoveries or commercial readiness merely because discussions with interested people or organisations have occurred.
 
 ---
 
 # Repositories
 
-## Combined Public Showcase
+| Repository | Purpose | Access |
+|---|---|---|
+| [Kobald scientific-harness showcase](https://github.com/CL-BAF/Kobald_Showcase) | Public mission, scientific workflow direction and prototype status | Public |
+| [KobaldAi](https://github.com/CL-BAF/KobaldAi) | Canonical source, architecture and migration roadmap | Public |
+| [Domovoi-Labs](https://github.com/CL-BAF/Domovoi-Labs) | Actual research laboratory: baseline Transformer, pipeline, tests and partial first experiment | **Private**; access requires authorisation |
+| [Kobald + Domovoi](https://github.com/CL-BAF/Domovoi-Kobald_showcase) | Combined public programme and research context | Public |
 
-This repository provides the public overview of the combined Kobald and Domovoi research program.
-
-## Kobald
-
-Kobald is the practical local AI platform and model-testing environment.
-
-Public showcase:
-
-https://github.com/CL-BAF/Kobald_Showcase
-
-## Domovoi
-
-Domovoi is the experimental AI model-efficiency research project.
-
-Research information, results and public material will continue to be added as development progresses.
+The public combined showcase describes research goals and documented status. The private laboratory code and complete research artifacts are not automatically accessible to external readers.
 
 ---
 
